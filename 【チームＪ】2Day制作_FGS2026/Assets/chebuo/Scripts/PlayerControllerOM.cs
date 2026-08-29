@@ -1,7 +1,15 @@
 using UnityEngine;
 
-public class PlayerControllerOM : MonoBehaviour
+public class PlayerControllerOM : MonoBehaviour,IReversible
 {
+    protected bool isRevered =false;
+    bool IReversible. isRevered{get;set;}
+
+    public void OnReversed()
+    {
+        isRevered=!isRevered;
+        Debug.Log("reversed");
+    }
     [SerializeField]GameObject attackCol;
     Rigidbody2D rb;
     
@@ -22,9 +30,9 @@ public class PlayerControllerOM : MonoBehaviour
         else rb.AddForce(Vector2.down*jumpForce,ForceMode2D.Impulse);
     }
 
-    public void NormalAttack(float attackForce,float duration)
+    public void NormalAttack(Vector2 attackSize,float duration)
     {
-        //Attack(duration,attack);
+        Attack(duration,attackSize);
     }
 
     public void SquatAttack(float attackForce)
@@ -34,19 +42,16 @@ public class PlayerControllerOM : MonoBehaviour
 
     private void Attack(float duration,Vector2 attackSize)
     {
+        Debug.Log("attacking");
         Collider2D[] hitCol=Physics2D.OverlapBoxAll(attackCol.transform.position,attackSize,0);
-    }
-
-    private void GetColliders()
-    {
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        //var reversable=col.transform.GetComponent<IReversable>();
-        //if(reversable==null)return;
-
-        //反転処理いろいろ
+        foreach(Collider2D col in hitCol){
+            //if(col.name==this.gameObject.name)return;
+            Debug.Log(col.name);
+            var reversible=col.GetComponent<IReversible>();
+            if(reversible==null)Debug.Log("nullpo");
+            reversible.OnReversed();
+        }
+        //var reversible=hitCol.GetComponent<IReversible>();
+        //reversible.OnReverse();
     }
 }

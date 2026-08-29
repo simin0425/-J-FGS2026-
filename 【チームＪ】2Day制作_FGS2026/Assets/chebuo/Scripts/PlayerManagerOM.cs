@@ -7,9 +7,11 @@ public class PlayerManagerOM : MonoBehaviour
     InputAction jump;
     InputAction attack;
 
+    [Header("体力")]public int HP=3;
     [Header("移動速度")]public float moveSpeed=5;
     [Header("ジャンプ力")]public float jumpForce=5;
     [Header("攻撃力")]public float attackForce=5;
+    [Header("攻撃範囲")]public Vector2 attackSize=new Vector2(1,1);
     [Header("攻撃持続")]public float attackDuration=2;
 
     public bool isGround=false;
@@ -65,13 +67,14 @@ public class PlayerManagerOM : MonoBehaviour
         }
         if (attack.WasPressedThisFrame())
         {
+            Debug.Log("attack");
             NormalAttack();
         }
     }
 
     private void NormalAttack()
     {
-        playerController.NormalAttack(attackForce,attackDuration);
+        playerController.NormalAttack(attackSize,attackDuration);
     }
 
     private void SquatAttack()
@@ -82,6 +85,7 @@ public class PlayerManagerOM : MonoBehaviour
     private void Move()
     {
         var inputValue=move.ReadValue<Vector2>();
+        if(inputValue==new Vector2(0,0))ChangeState(PlayerState.idle);
         playerController.Move(inputValue,moveSpeed);
     }
     private void Jump()
