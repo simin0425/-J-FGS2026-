@@ -5,11 +5,14 @@ public class PlayerManagerOM : MonoBehaviour
 {
     InputAction move;
     InputAction jump;
+    InputAction attack;
 
     public float moveSpeed=5;
     public float jumpForce=5;
+    public float attackForce=5;
 
     public bool isGround=false;
+    public bool isSquat=false;
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
 
@@ -21,6 +24,7 @@ public class PlayerManagerOM : MonoBehaviour
     {
         move=InputSystem.actions.FindAction("Move");
         jump=InputSystem.actions.FindAction("Jump");
+        attack=InputSystem.actions.FindAction("Attack");
         move.Enable();
         jump.Enable();
         playerController=this.GetComponent<PlayerControllerOM>();
@@ -30,6 +34,7 @@ public class PlayerManagerOM : MonoBehaviour
     void Update()
     {
         CheckGround();
+        CheckSquat();
         switch (currentState)
         {
             case PlayerState.idle:
@@ -38,29 +43,36 @@ public class PlayerManagerOM : MonoBehaviour
             case PlayerState.move:
                 Move();
                 break;
+            case PlayerState.squat:
+                SquatAttack();
+                break;
             default:
                 break;
         }
         Jump();
-
     }
 
     private void IdleLoop()
     {
         if (move.WasPressedThisFrame())
         {
-            ChangeState(PlayerState.move);
+            if(!isSquat)ChangeState(PlayerState.move);
+            else ChangeState(PlayerState.squat);
+        }
+        if (attack.WasPressedThisFrame())
+        {
+            NormalAttack();
         }
     }
 
     private void NormalAttack()
     {
-        
+        playerController.NormalAttack(attackForce);
     }
 
     private void SquatAttack()
     {
-        
+        if(attack.WasPressedThisFrame()&&isSquat)playerController.SquatAttack(attackForce);
     }
 
     private void Move()
@@ -91,5 +103,11 @@ public class PlayerManagerOM : MonoBehaviour
             groundLayer
         );
         isGround=isHit;
+    }
+
+    private void CheckSquat()
+    {
+        var InputValue=move.ReadValue<Vector2>();
+        if(InputValue.y<0)isSquat=true;
     }
 }

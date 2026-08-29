@@ -18,4 +18,14 @@ public class PlayerControllerOM : MonoBehaviour
     {
         rb.AddForce(Vector2.up*jumpForce,ForceMode2D.Impulse);
     }
+
+    public void NormalAttack(float attackForce)
+    {
+        
+    }
+
+    public void SquatAttack(float attackForce)
+    {
+        
+    }
 }
