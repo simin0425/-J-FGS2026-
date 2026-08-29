@@ -6,6 +6,7 @@ public class PlayerManagerOM : MonoBehaviour
     InputAction move;
     InputAction jump;
     InputAction attack;
+    InputAction changeGravity;
 
     [Header("体力")]public int HP=3;
     [Header("移動速度")]public float moveSpeed=5;
@@ -16,7 +17,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     public bool isGround=false;
     public bool isSquat=false;
-    public bool isReverseGravity=false;//仮実装,Reverse専用の機能実装次第削除予定
+    public bool isReverseGravity=false;
 
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
@@ -30,9 +31,11 @@ public class PlayerManagerOM : MonoBehaviour
         move=InputSystem.actions.FindAction("Move");
         jump=InputSystem.actions.FindAction("Jump");
         attack=InputSystem.actions.FindAction("Attack");
+        changeGravity=InputSystem.actions.FindAction("ChangeGravity");
         move.Enable();
         jump.Enable();
         attack.Enable();
+        changeGravity.Enable();
         playerController=this.GetComponent<PlayerControllerOM>();
     }
 
@@ -48,9 +51,7 @@ public class PlayerManagerOM : MonoBehaviour
                 break;
             case PlayerState.move:
                 Move();
-                break;
-            case PlayerState.squat:
-                SquatAttack();
+                ActionLoop();
                 break;
             default:
                 break;
@@ -62,13 +63,30 @@ public class PlayerManagerOM : MonoBehaviour
     {
         if (move.WasPressedThisFrame())
         {
-            if(!isSquat)ChangeState(PlayerState.move);
-            else ChangeState(PlayerState.squat);
+            ChangeState(PlayerState.move);
         }
         if (attack.WasPressedThisFrame())
         {
             Debug.Log("attack");
             NormalAttack();
+        }
+        if (changeGravity.WasPressedThisFrame()&&isGround)
+        {
+            ChangeGravity();
+            isReverseGravity=!isReverseGravity;
+        }
+    }
+    private void ActionLoop()
+    {
+        if (attack.WasPressedThisFrame())
+        {
+            Debug.Log("attack");
+            NormalAttack();
+        }
+        if (changeGravity.WasPressedThisFrame()&&isGround)
+        {
+            ChangeGravity();
+            isReverseGravity=!isReverseGravity;
         }
     }
 
@@ -77,9 +95,9 @@ public class PlayerManagerOM : MonoBehaviour
         playerController.NormalAttack(attackSize,attackDuration);
     }
 
-    private void SquatAttack()
+    private void ChangeGravity()
     {
-        if(attack.WasPressedThisFrame()&&isSquat)playerController.SquatAttack(attackForce);
+        playerController.ChangeGravity();
     }
 
     private void Move()
@@ -104,13 +122,28 @@ public class PlayerManagerOM : MonoBehaviour
 
     private void CheckGround()//接地判定検知
     {
-        var isHit=Physics2D.Raycast(
-            transform.position,
-            Vector2.down,
-            groundDistance,
-            groundLayer
-        );
-        isGround=isHit;
+        if(!isReverseGravity)
+        {
+            var isHit=Physics2D.Raycast(
+                transform.position,
+                Vector2.down,
+                groundDistance,
+                groundLayer
+            );
+            
+            isGround=isHit;
+        }
+        else
+        {
+            var isHit=Physics2D.Raycast(
+                transform.position,
+                Vector2.up,
+                groundDistance,
+                groundLayer
+            );
+            
+            isGround=isHit;
+        }
     }
 
     private void CheckSquat()//下入力検知
