@@ -3,6 +3,9 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
+    float offsetY = 1.5f;
+
+    [SerializeField]
     GameObject player;
     [SerializeField]
     float lerpT = 5.0f;
@@ -18,6 +21,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         Vector3 playerPos = player.transform.position;
+        playerPos.y += offsetY;
         playerPos.z = -10.0f;
         this.transform.position = playerPos;
 
@@ -34,6 +38,7 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         Vector3 playerPos = player.transform.position;
+        playerPos.y += offsetY;
         playerPos.z = -10.0f;
         Vector3 thisPos = this.transform.position;
         Vector3 afterPos = Vector3.Lerp(thisPos, playerPos, lerpT * Time.deltaTime);

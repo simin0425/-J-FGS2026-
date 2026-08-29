@@ -76632,6 +76632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f79410620313f3747a31b11f99747dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  offsetY: 1
   player: {fileID: 368794872}
   lerpT: 5
   leftBottomLimit: {fileID: 856432829}
