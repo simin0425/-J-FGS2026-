@@ -26,9 +26,10 @@ public class PlayerControllerOM : MonoBehaviour
         else rb.AddForce(Vector2.down*jumpForce,ForceMode2D.Impulse);
     }
 
-    public void NormalAttack(Vector2 attackSize,float duration)
+    public void NormalAttack(Vector2 attackSize)
     {
-        Attack(duration,attackSize);
+        rb.linearVelocityX=0;
+        //Attack(duration,attackSize);
     }
 
     public void ChangeGravity()
@@ -37,15 +38,34 @@ public class PlayerControllerOM : MonoBehaviour
         spriteRenderer.flipY=!spriteRenderer.flipY;
     }
 
-    private void Attack(float duration,Vector2 attackSize)
+    public void Attack(Vector2 attackSize)
     {
         Debug.Log("attacking");
         Collider2D[] hitCol=Physics2D.OverlapBoxAll(attackCol.transform.position,attackSize,0);
+        Debug.Log(hitCol.Length);
         foreach(Collider2D col in hitCol){
-            if(col.CompareTag("Player"))return;
+            Debug.Log(col);
+            if(col.gameObject==this.gameObject)continue;
             var reversible=col.GetComponent<IReversible>();
             if(reversible==null)Debug.Log("nullpo");
+            Debug.Log(col.name);
             reversible.OnReversed();
         }
     }
+    #if UNITY_EDITOR
+    //攻撃判定可視化用
+
+    PlayerManagerOM pm;
+    [Header("攻撃判定オブジェクト")][SerializeField]private SpriteRenderer sr;
+    [Header("表示非表示")][SerializeField]private bool isEnable; 
+
+
+    void Start()=>pm=this.GetComponent<PlayerManagerOM>();
+    void Update()
+    {
+        sr.enabled=isEnable;
+        sr.gameObject.transform.localScale=new Vector3(pm.attackSize.x,pm.attackSize.y,1);
+    }
+
+    #endif
 }
