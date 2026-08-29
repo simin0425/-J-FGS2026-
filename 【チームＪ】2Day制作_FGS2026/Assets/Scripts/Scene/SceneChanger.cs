@@ -6,6 +6,7 @@ public static class SceneChanger
     public enum Scene
     {
         TitleScene,
+        Stage01,
         GameScene,
         ClearScene,
         GameOverScene

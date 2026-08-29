@@ -7,13 +7,16 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
-    guid: 40e1d7eb7881b85459c743eb41b6897a
+    guid: fae51bfbba65a2348816dced1b8078b9
+  - enabled: 1
+    path: Assets/takao/scene/Stage01.unity
+    guid: 7f2b37cb84fb1a645a22982209963ed3
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 891b28053a26b1b4dbd506596a9ddb47
   - enabled: 1
     path: Assets/Scenes/ClearScene.unity
-    guid: 3f6e0590fb44909458a72b7f1ea90724
+    guid: 7a532d1e45247a54aa1066978f2405b0
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: 47e34bd15babe6e4d8f3e461691afb8a
