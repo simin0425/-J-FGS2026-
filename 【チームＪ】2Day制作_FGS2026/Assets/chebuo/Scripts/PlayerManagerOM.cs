@@ -9,6 +9,10 @@ public class PlayerManagerOM : MonoBehaviour
     public float moveSpeed=5;
     public float jumpForce=5;
 
+    public bool isGround=false;
+    [SerializeField]float groundDistance=0.5f;
+    [SerializeField]LayerMask groundLayer;
+
     public PlayerState currentState=PlayerState.idle;
 
     PlayerControllerOM playerController;
@@ -25,6 +29,7 @@ public class PlayerManagerOM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckGround();
         switch (currentState)
         {
             case PlayerState.idle:
@@ -36,7 +41,7 @@ public class PlayerManagerOM : MonoBehaviour
             default:
                 break;
         }
-
+        Jump();
 
     }
 
@@ -65,7 +70,7 @@ public class PlayerManagerOM : MonoBehaviour
     }
     private void Jump()
     {
-        if (jump.WasPressedThisFrame())
+        if (jump.WasPressedThisFrame()&&isGround)
         {
             playerController.Jump(jumpForce);
         }
@@ -75,5 +80,16 @@ public class PlayerManagerOM : MonoBehaviour
     {
         if(currentState==state)return;
         currentState=state;
+    }
+
+    private void CheckGround()
+    {
+        var isHit=Physics2D.Raycast(
+            transform.position,
+            Vector2.down,
+            groundDistance,
+            groundLayer
+        );
+        isGround=isHit;
     }
 }
