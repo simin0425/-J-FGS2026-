@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CannonBall : MonoBehaviour, IReversible
 {
@@ -8,18 +9,29 @@ public class CannonBall : MonoBehaviour, IReversible
     [Header("ˆÚ“®")]
     [SerializeField][Tooltip("x-‚ª¶Œü‚«")] private Vector3 moveDir;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private UnityEngine.Transform playerTransform;
+    private bool shouldMove = false;
+
 
     protected bool isRevered = false;
 
-    bool IReversible.isRevered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    bool IReversible.isRevered { get; set; }
 
-    void Start()
-    {
-    }
 
     void FixedUpdate()
     {
-        rigidbody.linearVelocity = moveDir * moveSpeed * (isRevered ? -1f : 1f);
+        if (shouldMove)
+        {
+            rigidbody.linearVelocity = moveDir * moveSpeed * (isRevered ? -1f : 1f);
+            return;
+        }
+
+        float distance = Mathf.Abs(transform.position.x - playerTransform.position.x);
+
+        if (distance < moveSpeed)
+        {
+            shouldMove = true;
+        }
     }
 
     private void OnReversed()
