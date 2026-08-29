@@ -85,7 +85,7 @@ public class PlayerManagerOM : MonoBehaviour
     private void Move()
     {
         var inputValue=move.ReadValue<Vector2>();
-        if(inputValue==new Vector2(0,0))ChangeState(PlayerState.idle);
+        if(inputValue==new Vector2(0,0))ChangeState(PlayerState.idle);//動いてないときidleへ
         playerController.Move(inputValue,moveSpeed);
     }
     private void Jump()
@@ -102,7 +102,7 @@ public class PlayerManagerOM : MonoBehaviour
         currentState=state;
     }
 
-    private void CheckGround()
+    private void CheckGround()//接地判定検知
     {
         var isHit=Physics2D.Raycast(
             transform.position,
@@ -113,9 +113,14 @@ public class PlayerManagerOM : MonoBehaviour
         isGround=isHit;
     }
 
-    private void CheckSquat()
+    private void CheckSquat()//下入力検知
     {
         var InputValue=move.ReadValue<Vector2>();
         if(InputValue.y<0)isSquat=true;
+    }
+
+    public void Damage(int damage)
+    {
+        HP-=damage;
     }
 }
