@@ -24,6 +24,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     public PlayerState currentState=PlayerState.idle;
 
+    Animator animator;
     PlayerControllerOM playerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -36,6 +37,7 @@ public class PlayerManagerOM : MonoBehaviour
         jump.Enable();
         attack.Enable();
         changeGravity.Enable();
+        animator=this.GetComponent<Animator>();
         playerController=this.GetComponent<PlayerControllerOM>();
     }
 
@@ -53,6 +55,9 @@ public class PlayerManagerOM : MonoBehaviour
                 Move();
                 ActionLoop();
                 break;
+            case PlayerState.attack:
+                NormalAttack();
+            break;
             default:
                 break;
         }
@@ -61,6 +66,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     private void IdleLoop()
     {
+        animator.SetBool("isMove",false);
         if (move.WasPressedThisFrame())
         {
             ChangeState(PlayerState.move);
@@ -68,7 +74,7 @@ public class PlayerManagerOM : MonoBehaviour
         if (attack.WasPressedThisFrame())
         {
             Debug.Log("attack");
-            NormalAttack();
+            ChangeState(PlayerState.attack);
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
         {
@@ -81,7 +87,7 @@ public class PlayerManagerOM : MonoBehaviour
         if (attack.WasPressedThisFrame())
         {
             Debug.Log("attack");
-            NormalAttack();
+            ChangeState(PlayerState.attack);
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
         {
@@ -92,7 +98,13 @@ public class PlayerManagerOM : MonoBehaviour
 
     private void NormalAttack()
     {
+        animator.SetBool("isAttack",true);
         playerController.NormalAttack(attackSize,attackDuration);
+    }
+
+    public void StopAttack()
+    {
+        animator.SetBool("isAttack",false);
     }
 
     private void ChangeGravity()
@@ -105,6 +117,7 @@ public class PlayerManagerOM : MonoBehaviour
         var inputValue=move.ReadValue<Vector2>();
         if(inputValue==new Vector2(0,0))ChangeState(PlayerState.idle);//動いてないときidleへ
         playerController.Move(inputValue,moveSpeed);
+        animator.SetBool("isMove",true);
     }
     private void Jump()
     {

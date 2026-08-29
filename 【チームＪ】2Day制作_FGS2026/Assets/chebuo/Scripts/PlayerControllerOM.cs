@@ -10,14 +10,13 @@ public class PlayerControllerOM : MonoBehaviour
     {
         rb=this.GetComponent<Rigidbody2D>();
         spriteRenderer=this.GetComponent<SpriteRenderer>();
-        attackCol.SetActive(false);
     }
 
     public void Move(Vector2 inputValue,float speed)
     {
         rb.linearVelocity = new Vector2(inputValue.x * speed, rb.linearVelocity.y);
-        if(inputValue.x<0)spriteRenderer.flipX=false;
-        else if(inputValue.x>0)spriteRenderer.flipX=true;
+        if(inputValue.x<0)spriteRenderer.flipX=true;
+        else if(inputValue.x>0)spriteRenderer.flipX=false;
         else spriteRenderer.flipX=spriteRenderer.flipX;
     }
 
@@ -43,13 +42,10 @@ public class PlayerControllerOM : MonoBehaviour
         Debug.Log("attacking");
         Collider2D[] hitCol=Physics2D.OverlapBoxAll(attackCol.transform.position,attackSize,0);
         foreach(Collider2D col in hitCol){
-            //if(col.name==this.gameObject.name)return;
-            Debug.Log(col.name);
+            if(col.CompareTag("Player"))return;
             var reversible=col.GetComponent<IReversible>();
             if(reversible==null)Debug.Log("nullpo");
             reversible.OnReversed();
         }
-        //var reversible=hitCol.GetComponent<IReversible>();
-        //reversible.OnReverse();
     }
 }

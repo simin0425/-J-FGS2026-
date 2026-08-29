@@ -2,5 +2,7 @@ public enum PlayerState
 {
     idle,
     move,
-    squat
+    attack,
+    squat,
+    dead
 }
