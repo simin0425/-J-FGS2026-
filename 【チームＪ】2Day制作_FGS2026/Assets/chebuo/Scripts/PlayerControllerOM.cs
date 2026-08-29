@@ -3,17 +3,22 @@ using UnityEngine;
 public class PlayerControllerOM : MonoBehaviour
 {
     [SerializeField]GameObject attackCol;
+    SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     
     void Awake()
     {
         rb=this.GetComponent<Rigidbody2D>();
+        spriteRenderer=this.GetComponent<SpriteRenderer>();
         attackCol.SetActive(false);
     }
 
     public void Move(Vector2 inputValue,float speed)
     {
         rb.linearVelocity = new Vector2(inputValue.x * speed, rb.linearVelocity.y);
+        if(inputValue.x<0)spriteRenderer.flipX=false;
+        else if(inputValue.x>0)spriteRenderer.flipX=true;
+        else spriteRenderer.flipX=spriteRenderer.flipX;
     }
 
     public void Jump(float jumpForce,bool isReverse)
@@ -27,9 +32,10 @@ public class PlayerControllerOM : MonoBehaviour
         Attack(duration,attackSize);
     }
 
-    public void SquatAttack(float attackForce)
+    public void ChangeGravity()
     {
-        
+        rb.gravityScale*=-1;
+        spriteRenderer.flipY=!spriteRenderer.flipY;
     }
 
     private void Attack(float duration,Vector2 attackSize)
