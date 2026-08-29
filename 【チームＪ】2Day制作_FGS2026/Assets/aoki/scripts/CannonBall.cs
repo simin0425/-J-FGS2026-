@@ -44,5 +44,27 @@ public class CannonBall : MonoBehaviour, IReversible
     {
         OnReversed();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //player
+        //破壊可能オブジェクト
+        PlayerManagerOM playerManager = GetComponent<PlayerManagerOM>();
+        if (playerManager != null) {
+            playerManager.Damage(1);
+            // パーティクルとか。
+            Destroy(this.gameObject);
+            return;
+        }
+        BreakableObject breakableObject = GetComponent<BreakableObject>();
+        if (breakableObject != null)
+        {
+            breakableObject.Break();
+            // パーティクルとか。
+            Destroy(this.gameObject);
+            return;
+        }
+
+    }
     // TODO:linerVerocityからの角度計算、適用(角度計算とか置くユーティリティクラスほしい)
 }
