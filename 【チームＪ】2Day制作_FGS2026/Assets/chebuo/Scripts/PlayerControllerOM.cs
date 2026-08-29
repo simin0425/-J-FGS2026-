@@ -14,9 +14,10 @@ public class PlayerControllerOM : MonoBehaviour
         rb.linearVelocity = new Vector2(inputValue.x * speed, rb.linearVelocity.y);
     }
 
-    public void Jump(float jumpForce)
+    public void Jump(float jumpForce,bool isReverse)
     {
-        rb.AddForce(Vector2.up*jumpForce,ForceMode2D.Impulse);
+        if(!isReverse)rb.AddForce(Vector2.up*jumpForce,ForceMode2D.Impulse);
+        else rb.AddForce(Vector2.down*jumpForce,ForceMode2D.Impulse);
     }
 
     public void NormalAttack(float attackForce)

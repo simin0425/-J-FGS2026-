@@ -13,6 +13,8 @@ public class PlayerManagerOM : MonoBehaviour
 
     public bool isGround=false;
     public bool isSquat=false;
+    public bool isReverseGravity=false;
+
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
 
@@ -84,7 +86,7 @@ public class PlayerManagerOM : MonoBehaviour
     {
         if (jump.WasPressedThisFrame()&&isGround)
         {
-            playerController.Jump(jumpForce);
+            playerController.Jump(jumpForce,isReverseGravity);
         }
     }
 
