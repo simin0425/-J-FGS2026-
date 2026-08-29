@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerControllerOM : MonoBehaviour
 {
     [SerializeField]GameObject attackCol;
+    Vector3 attackColDefaultPos;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     
@@ -10,13 +11,21 @@ public class PlayerControllerOM : MonoBehaviour
     {
         rb=this.GetComponent<Rigidbody2D>();
         spriteRenderer=this.GetComponent<SpriteRenderer>();
+        attackColDefaultPos=attackCol.transform.localPosition;
     }
 
     public void Move(Vector2 inputValue,float speed)
     {
         rb.linearVelocity = new Vector2(inputValue.x * speed, rb.linearVelocity.y);
-        if(inputValue.x<0)spriteRenderer.flipX=true;
-        else if(inputValue.x>0)spriteRenderer.flipX=false;
+        if(inputValue.x<0){
+            spriteRenderer.flipX=true;
+            attackCol.transform.localPosition=new Vector3(-attackColDefaultPos.x,attackColDefaultPos.y,attackColDefaultPos.z);
+        }
+        else if(inputValue.x>0)
+        {
+            spriteRenderer.flipX=false;
+            attackCol.transform.localPosition=new Vector3(attackColDefaultPos.x,attackColDefaultPos.y,attackColDefaultPos.z);
+        }
         else spriteRenderer.flipX=spriteRenderer.flipX;
     }
 
