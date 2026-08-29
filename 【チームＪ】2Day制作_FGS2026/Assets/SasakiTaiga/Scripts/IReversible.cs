@@ -8,7 +8,7 @@ public interface IReversible
     /// <summary>
     /// ”½“]‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
     /// </summary>
-    bool isRevered { get; }
+    protected bool isRevered {  get; set; }
 
     /// <summary>
     /// ”½“]‚µ‚½uŠÔ‚ÉŒÄ‚Î‚ê‚éŠÖ”
