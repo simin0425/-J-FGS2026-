@@ -10,6 +10,7 @@ public class CannonBall : MonoBehaviour, IReversible
     [SerializeField][Tooltip("x-Ç™ç∂å¸Ç´")] private Vector3 moveDir;
     [SerializeField] private float moveSpeed;
     [SerializeField] private UnityEngine.Transform playerTransform;
+    [SerializeField] private float moveStartRange =12f;
     private bool shouldMove = false;
 
 
@@ -28,7 +29,7 @@ public class CannonBall : MonoBehaviour, IReversible
 
         float distance = Mathf.Abs(transform.position.x - playerTransform.position.x);
 
-        if (distance < moveSpeed)
+        if (distance < moveStartRange)
         {
             shouldMove = true;
         }
