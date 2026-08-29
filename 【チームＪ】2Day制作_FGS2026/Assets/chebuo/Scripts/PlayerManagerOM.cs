@@ -13,7 +13,6 @@ public class PlayerManagerOM : MonoBehaviour
     [Header("ジャンプ力")]public float jumpForce=5;
     [Header("攻撃力")]public float attackForce=5;
     [Header("攻撃範囲")]public Vector2 attackSize=new Vector2(1,1);
-    [Header("攻撃持続")]public float attackDuration=2;
 
     public bool isGround=false;
     public bool isSquat=false;
@@ -73,7 +72,6 @@ public class PlayerManagerOM : MonoBehaviour
         }
         if (attack.WasPressedThisFrame())
         {
-            Debug.Log("attack");
             ChangeState(PlayerState.attack);
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
@@ -86,7 +84,6 @@ public class PlayerManagerOM : MonoBehaviour
     {
         if (attack.WasPressedThisFrame())
         {
-            Debug.Log("attack");
             ChangeState(PlayerState.attack);
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
@@ -98,12 +95,21 @@ public class PlayerManagerOM : MonoBehaviour
 
     private void NormalAttack()
     {
+        animator.SetBool("isMove",false);
         animator.SetBool("isAttack",true);
-        playerController.NormalAttack(attackSize,attackDuration);
+        //this.transform.localScale=new Vector3(0.1f,0.1f,0.1f);
+        playerController.NormalAttack(attackSize);
+    }
+
+    public void StartAttack()
+    {
+        playerController.Attack(attackSize);
     }
 
     public void StopAttack()
     {
+        ChangeState(PlayerState.idle);
+        //this.transform.localScale=new Vector3(0.05f,0.05f,0.05f);
         animator.SetBool("isAttack",false);
     }
 
