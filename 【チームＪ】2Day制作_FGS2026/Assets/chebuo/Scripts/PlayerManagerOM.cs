@@ -7,13 +7,14 @@ public class PlayerManagerOM : MonoBehaviour
     InputAction jump;
     InputAction attack;
 
-    public float moveSpeed=5;
-    public float jumpForce=5;
-    public float attackForce=5;
+    [Header("移動速度")]public float moveSpeed=5;
+    [Header("ジャンプ力")]public float jumpForce=5;
+    [Header("攻撃力")]public float attackForce=5;
+    [Header("攻撃持続")]public float attackDuration=2;
 
     public bool isGround=false;
     public bool isSquat=false;
-    public bool isReverseGravity=false;
+    public bool isReverseGravity=false;//仮実装,Reverse専用の機能実装次第削除予定
 
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
@@ -29,6 +30,7 @@ public class PlayerManagerOM : MonoBehaviour
         attack=InputSystem.actions.FindAction("Attack");
         move.Enable();
         jump.Enable();
+        attack.Enable();
         playerController=this.GetComponent<PlayerControllerOM>();
     }
 
@@ -69,7 +71,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     private void NormalAttack()
     {
-        playerController.NormalAttack(attackForce);
+        playerController.NormalAttack(attackForce,attackDuration);
     }
 
     private void SquatAttack()
