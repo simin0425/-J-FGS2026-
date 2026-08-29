@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class HP_UI_FR : MonoBehaviour
 {
 
     public int hp = 3;
 
-    void OnGUI()
-    {
-        GUI.Box(new Rect())
-    }
-
+   
 
 
 
@@ -31,5 +28,8 @@ public class HP_UI_FR : MonoBehaviour
     void Update()
     {
         if (Keyboard.current.wKey.isPressed)
+        {
+            hp--;
+        }
     }
 }
