@@ -5,10 +5,15 @@ public class HP_UI_FR : MonoBehaviour
 {
 
     public int hp = 3;
+    public GameObject[] hearts; //ハート画像を3つ入れる
 
-    void OnGUI()
+
+void Damage()
     {
-        GUI.Box(new Rect())
+        if(hp <= 0) return;
+
+        hp--;
+        hearts[hp].SetActive(false);
     }
 
 
@@ -20,16 +25,4 @@ public class HP_UI_FR : MonoBehaviour
 
 
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Keyboard.current.wKey.isPressed)
-    }
 }
