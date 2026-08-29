@@ -58,7 +58,13 @@ public class SpikeTrampoline : MonoBehaviour, IReversible
             if (isReversed)
             {
                 // トランポリン
-                collision.GetComponent<Rigidbody2D>().linearVelocityY = trampolinePower;
+                float sign = 1.0f;
+                // プレイヤーが重力反転していたら符号を反転
+                if (collision.GetComponent<PlayerManagerOM>().isReverseGravity)
+                {
+                    sign = -1.0f;
+                }
+                collision.GetComponent<Rigidbody2D>().linearVelocityY = trampolinePower * sign;
                 Debug.Log("Trampoline : hit");
             }
             else
