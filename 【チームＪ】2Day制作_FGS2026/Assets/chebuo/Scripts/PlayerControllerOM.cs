@@ -1,15 +1,7 @@
 using UnityEngine;
 
-public class PlayerControllerOM : MonoBehaviour,IReversible
+public class PlayerControllerOM : MonoBehaviour
 {
-    protected bool isRevered =false;
-    bool IReversible. isRevered{get;set;}
-
-    public void OnReversed()
-    {
-        isRevered=!isRevered;
-        Debug.Log("reversed");
-    }
     [SerializeField]GameObject attackCol;
     Rigidbody2D rb;
     
