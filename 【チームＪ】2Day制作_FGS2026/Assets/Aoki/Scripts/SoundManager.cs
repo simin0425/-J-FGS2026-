@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SoundManager: MonoBehaviour
@@ -9,6 +11,25 @@ public class SoundManager: MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        LoopBGM();
+    }
+
+    private void LoopBGM()
+    {
+        if (BGMSource.isPlaying)
+        {
+            return;
+        }
+
+        if (BGMSource.clip)
+        {
+            BGMSource.Play();
+        }
     }
 
     public void PlaySE(AudioClip seClip, float seVolumeScale = 1f)
@@ -21,9 +42,10 @@ public class SoundManager: MonoBehaviour
         BGMSource.clip = bgmClip;
         BGMSource.Play();
     }
-    public void StopSE()
+    public void StopBGM()
     {
         BGMSource.Stop();
+        BGMSource.clip = null;
     }
 
 
