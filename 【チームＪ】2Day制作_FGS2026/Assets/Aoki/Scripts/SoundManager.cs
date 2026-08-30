@@ -10,6 +10,10 @@ public class SoundManager: MonoBehaviour
 
     private void Awake()
     {
+        if (SoundManager.Instance != null)
+        {
+            Destroy(gameObject);
+        }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
