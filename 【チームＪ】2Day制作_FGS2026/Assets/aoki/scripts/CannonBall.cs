@@ -3,11 +3,11 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CannonBall : MonoBehaviour, IReversible
 {
-    [Header("ƒRƒ“ƒ|[ƒlƒ“ƒg")]
+    [Header("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ")]
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private Rigidbody2D rigidbody;
-    [Header("ˆÚ“®")]
-    [SerializeField][Tooltip("x-‚ª¶Œü‚«")] private Vector3 moveDir;
+    [Header("ç§»å‹•")]
+    [SerializeField][Tooltip("x-ãŒå·¦å‘ã")] private Vector3 moveDir;
     [SerializeField] private float moveSpeed;
     [SerializeField] private UnityEngine.Transform playerTransform;
     [SerializeField] private float moveStartRange =12f;
@@ -48,11 +48,11 @@ public class CannonBall : MonoBehaviour, IReversible
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //player
-        //”j‰ó‰Â”\ƒIƒuƒWƒFƒNƒg
+        //ç ´å£Šå¯èƒ½ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
         PlayerManagerOM playerManager = GetComponent<PlayerManagerOM>();
         if (playerManager != null) {
             playerManager.Damage(1);
-            // ƒp[ƒeƒBƒNƒ‹‚Æ‚©B
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã¨ã‹ã€‚
             Destroy(this.gameObject);
             return;
         }
@@ -60,11 +60,11 @@ public class CannonBall : MonoBehaviour, IReversible
         if (breakableObject != null)
         {
             breakableObject.Break();
-            // ƒp[ƒeƒBƒNƒ‹‚Æ‚©B
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã¨ã‹ã€‚
             Destroy(this.gameObject);
             return;
         }
 
     }
-    // TODO:linerVerocity‚©‚ç‚ÌŠp“xŒvZA“K—p(Šp“xŒvZ‚Æ‚©’u‚­ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Ù‚µ‚¢)
+    // TODO:linerVerocityã‹ã‚‰ã®è§’åº¦è¨ˆç®—ã€é©ç”¨(è§’åº¦è¨ˆç®—ã¨ã‹ç½®ããƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹ã»ã—ã„)
 }
