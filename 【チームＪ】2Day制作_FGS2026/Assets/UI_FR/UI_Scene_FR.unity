@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 130180026}
   - component: {fileID: 130180025}
   - component: {fileID: 130180028}
+  - component: {fileID: 130180029}
   m_Layer: 5
   m_Name: Heart2
   m_TagString: Untagged
@@ -318,6 +319,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d06a65b7d0f404f8f133a764d0302c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIImage_Base
+--- !u!95 &130180029
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130180024}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97f0ed2a1091c274893c6b138873c67f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &811055640
 GameObject:
   m_ObjectHideFlags: 0
