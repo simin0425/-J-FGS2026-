@@ -69,7 +69,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.15, y: 0.034999996}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -79,7 +79,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 0.6}
   m_EdgeRadius: 0
 --- !u!50 &2407446891236343741
 Rigidbody2D:
@@ -123,7 +123,7 @@ MonoBehaviour:
   boxCollider: {fileID: 2506298074947046549}
   rigidbody: {fileID: 2407446891236343741}
   moveDir: {x: -1, y: 0, z: 0}
-  moveSpeed: 1
+  moveSpeed: 3
 --- !u!1 &8556329184587896370
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8941181990554647052}
   - component: {fileID: 7248631764699349064}
+  - component: {fileID: 4014043653333121144}
   m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
@@ -149,13 +150,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8556329184587896370}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.70710677, w: 0.7071068}
-  m_LocalPosition: {x: 0.1, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25, y: -0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5850543723205253062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7248631764699349064
 SpriteRenderer:
   serializedVersion: 2
@@ -205,7 +206,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Sprite: {fileID: 6158828535977955035, guid: 795ca6d2b3936124fbf78d79ccd55fd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -215,3 +216,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4014043653333121144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556329184587896370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669981f39d6183f4c83e0faac99452ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteFliper
+  mySpriteRenderer: {fileID: 7248631764699349064}
+  sprites:
+  - {fileID: 6158828535977955035, guid: 795ca6d2b3936124fbf78d79ccd55fd4, type: 3}
+  - {fileID: -8768296677021879368, guid: 795ca6d2b3936124fbf78d79ccd55fd4, type: 3}
+  flipInterval: 0.2

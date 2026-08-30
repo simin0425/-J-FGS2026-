@@ -434,10 +434,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2407446891236343741, guid: 3fc4e52f2942f824cbde1d9ed0de1274, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4574015431145573899, guid: 3fc4e52f2942f824cbde1d9ed0de1274, type: 3}
       propertyPath: m_Name
       value: CannonBall
