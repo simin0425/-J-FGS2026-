@@ -16,6 +16,8 @@ public class CannonBall : MonoBehaviour, IReversible
 
     [SerializeField] private AudioClip boomSe;
     [SerializeField] private AudioClip moveSe;
+
+    private Vector3 startPos;
     
 
 
@@ -26,10 +28,17 @@ public class CannonBall : MonoBehaviour, IReversible
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        startPos = transform.position;
     }
 
     void FixedUpdate()
     {
+        if (Vector3.Distance(startPos, this.transform.position) > 20f)
+        {
+            SoundManager.Instance.PlaySE(boomSe);
+            Destroy(gameObject);
+            return;
+        }
         if (shouldMove)
         {
             rigidbody.linearVelocity = moveDir * moveSpeed * (isRevered ? -1f : 1f);
@@ -80,5 +89,9 @@ public class CannonBall : MonoBehaviour, IReversible
             return;
         }
 
+        SoundManager.Instance.PlaySE(boomSe);
+        Destroy(this.gameObject);
     }
+    
+    
 }
