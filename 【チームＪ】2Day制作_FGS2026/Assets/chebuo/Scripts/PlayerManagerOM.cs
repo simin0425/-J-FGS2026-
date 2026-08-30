@@ -206,6 +206,12 @@ public class PlayerManagerOM : MonoBehaviour
 
     public void Damage(int damage)
     {
+        animator.SetBool("isDamage",true);
         HP-=damage;
+    }
+
+    public void FinishDamage()
+    {
+        animator.SetBool("isDamage",false);
     }
 }
