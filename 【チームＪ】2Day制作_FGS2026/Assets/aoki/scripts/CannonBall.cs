@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -11,13 +12,21 @@ public class CannonBall : MonoBehaviour, IReversible
     [SerializeField] private float moveSpeed;
     [SerializeField] private UnityEngine.Transform playerTransform;
     [SerializeField] private float moveStartRange =12f;
-    private bool shouldMove = false;
+    [SerializeField]private bool shouldMove = false;
+
+    [SerializeField] private AudioClip boomSe;
+    [SerializeField] private AudioClip moveSe;
+    
 
 
     protected bool isRevered = false;
 
     bool IReversible.isRevered { get; set; }
 
+    private void Start()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void FixedUpdate()
     {
@@ -33,6 +42,8 @@ public class CannonBall : MonoBehaviour, IReversible
         {
             shouldMove = true;
         }
+
+        rigidbody.SetRotation(Vector2.SignedAngle(playerTransform.right, rigidbody.linearVelocity));
     }
 
     private void OnReversed()
@@ -50,21 +61,24 @@ public class CannonBall : MonoBehaviour, IReversible
         //player
         //破壊可能オブジェクト
         PlayerManagerOM playerManager = GetComponent<PlayerManagerOM>();
-        if (playerManager != null) {
+        if (playerManager != null)
+        {
             playerManager.Damage(1);
             // パーティクルとか。
+            SoundManager.Instance.PlaySE(boomSe);
             Destroy(this.gameObject);
             return;
         }
+
         BreakableObject breakableObject = GetComponent<BreakableObject>();
         if (breakableObject != null)
         {
             breakableObject.Break();
             // パーティクルとか。
+            SoundManager.Instance.PlaySE(boomSe);
             Destroy(this.gameObject);
             return;
         }
 
     }
-    // TODO:linerVerocityからの角度計算、適用(角度計算とか置くユーティリティクラスほしい)
 }
