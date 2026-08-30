@@ -21,6 +21,10 @@ public class PlayerManagerOM : MonoBehaviour
     public bool isSquat=false;
     public bool isReverseGravity=false;
 
+    [SerializeField]AudioClip moveSound;
+    [SerializeField]AudioClip hammerSound;
+    [SerializeField]AudioClip gravitySound;
+
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
 
@@ -28,7 +32,11 @@ public class PlayerManagerOM : MonoBehaviour
     public AttackState currentAttackState=AttackState.idle;
 
     Animator animator;
+    AudioSource audioSource;
     PlayerControllerOM playerController;
+
+    public static HP_UI_FR Instance{get;private set;}
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -41,6 +49,7 @@ public class PlayerManagerOM : MonoBehaviour
         attack.Enable();
         changeGravity.Enable();
         animator=this.GetComponent<Animator>();
+        audioSource=this.GetComponent<AudioSource>();
         playerController=this.GetComponent<PlayerControllerOM>();
     }
 
@@ -122,9 +131,11 @@ public class PlayerManagerOM : MonoBehaviour
         switch (currentAttackState)
         {
             case AttackState.gravity:
+                audioSource.PlayOneShot(gravitySound);
                 ChangeGravity();
                 break;
             case AttackState.hammer:
+                audioSource.PlayOneShot(hammerSound);
                 playerController.Attack(attackSize);
                 break;
         }
@@ -150,6 +161,16 @@ public class PlayerManagerOM : MonoBehaviour
         playerController.Move(inputValue,moveSpeed);
         animator.SetBool("isMove",true);
     }
+
+    public void MoveSound()
+    {
+        audioSource.PlayOneShot(moveSound);
+    }
+    public void StopSound()
+    {
+        audioSource.Stop();
+    }
+
     private void Jump()
     {
         if (jump.WasPressedThisFrame()&&isGround)
@@ -208,6 +229,7 @@ public class PlayerManagerOM : MonoBehaviour
     {
         animator.SetBool("isDamage",true);
         HP-=damage;
+        HP_UI_FR.Instance.Damage();
     }
 
     public void FinishDamage()
