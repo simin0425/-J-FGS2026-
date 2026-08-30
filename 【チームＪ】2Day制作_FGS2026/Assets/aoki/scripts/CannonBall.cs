@@ -29,6 +29,7 @@ public class CannonBall : MonoBehaviour, IReversible
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        // playerTransform = transform;
         startPos = transform.position;
     }
 
@@ -42,7 +43,8 @@ public class CannonBall : MonoBehaviour, IReversible
         }
         if (shouldMove)
         {
-            rigidbody.linearVelocity = moveDir * moveSpeed * (isRevered ? -1f : 1f);
+            rigidbody.linearVelocity = moveDir * (moveSpeed * (isRevered ? -1f : 1f));
+            transform.GetChild(0).transform.localScale = new Vector3((isRevered ? 0.1f : -0.1f), 0.1f, 0.1f);
             return;
         }
 
