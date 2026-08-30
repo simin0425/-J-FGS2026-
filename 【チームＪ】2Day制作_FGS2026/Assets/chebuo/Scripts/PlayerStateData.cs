@@ -5,6 +5,7 @@ public enum PlayerState
     attack,
     squat,
     gravity,
+    damage,
     dead
 }
 
