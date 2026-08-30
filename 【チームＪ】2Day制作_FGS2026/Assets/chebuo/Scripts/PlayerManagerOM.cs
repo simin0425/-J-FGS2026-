@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,8 @@ public class PlayerManagerOM : MonoBehaviour
     [Header("ジャンプ力")]public float jumpForce=5;
     [Header("攻撃力")]public float attackForce=5;
     [Header("攻撃範囲")]public Vector2 attackSize=new Vector2(1,1);
+
+    [HideInInspector] public Vector3 respawnPoint;
 
     public bool isGround=false;
     public bool isSquat=false;
@@ -38,6 +41,11 @@ public class PlayerManagerOM : MonoBehaviour
         changeGravity.Enable();
         animator=this.GetComponent<Animator>();
         playerController=this.GetComponent<PlayerControllerOM>();
+    }
+
+    private void Start()
+    {
+        respawnPoint=transform.position;
     }
 
     // Update is called once per frame
