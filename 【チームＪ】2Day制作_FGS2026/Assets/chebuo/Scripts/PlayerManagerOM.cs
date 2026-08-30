@@ -77,7 +77,7 @@ public class PlayerManagerOM : MonoBehaviour
     private void IdleLoop()
     {
         animator.SetBool("isMove",false);
-        if (move.WasPressedThisFrame())
+        if (move.IsPressed())
         {
             ChangeState(PlayerState.move);
         }
