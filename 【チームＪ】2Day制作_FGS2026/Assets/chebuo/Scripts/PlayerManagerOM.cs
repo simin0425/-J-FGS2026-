@@ -31,6 +31,8 @@ public class PlayerManagerOM : MonoBehaviour
     public PlayerState currentState=PlayerState.idle;
     public AttackState currentAttackState=AttackState.idle;
 
+
+
     Animator animator;
     AudioSource audioSource;
     PlayerControllerOM playerController;
@@ -75,12 +77,20 @@ public class PlayerManagerOM : MonoBehaviour
             case PlayerState.attack:
                 NormalAttack();
             break;
+            case PlayerState.damage:
+                NoDamage();
+            break;
             default:
                 break;
         }
         Jump();
         
         Debug.Log(isGround);
+    }
+
+    public void NoDamage()
+    {
+        
     }
 
     private void IdleLoop()
@@ -227,7 +237,9 @@ public class PlayerManagerOM : MonoBehaviour
 
     public void Damage(int damage)
     {
+        if(currentState==PlayerState.damage)return;
         animator.SetBool("isDamage",true);
+        ChangeState(PlayerState.damage);
         HP-=damage;
         HP_UI_FR.Instance.Damage();
     }
@@ -235,5 +247,6 @@ public class PlayerManagerOM : MonoBehaviour
     public void FinishDamage()
     {
         animator.SetBool("isDamage",false);
+        ChangeState(PlayerState.idle);
     }
 }
