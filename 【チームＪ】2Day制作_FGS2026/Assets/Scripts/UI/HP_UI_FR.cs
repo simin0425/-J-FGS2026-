@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public class HP_UI_FR : MonoBehaviour
 {
     public static HP_UI_FR Instance { get; private set; }
@@ -32,13 +33,11 @@ public void Damage()
         }
     }
 
-    public void DestroyTargetHPObject()
+    public void BeGameOver()
     {
-        hearts[hp].SetActive(false);
-
-          if (hp == 0)
+          if (hp <= 0)
         {
-            Debug.Log("Game Over");
+            SceneChanger.ChangeScene(SceneChanger.Scene.GameOverScene);
         }
     }
 
@@ -54,7 +53,14 @@ void Update()
 
 void Start()
     {
-        
+        foreach (GameObject heart in hearts)
+        {
+            UIImage_Base imageBase = heart.GetComponent<UIImage_Base>();
+            if (imageBase != null)
+            {
+                imageBase.SetOwner(this);
+            }
+        }
     }
 
 
