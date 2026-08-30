@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CannonBall : MonoBehaviour, IReversible
@@ -69,7 +70,7 @@ public class CannonBall : MonoBehaviour, IReversible
     {
         //player
         //破壊可能オブジェクト
-        PlayerManagerOM playerManager = GetComponent<PlayerManagerOM>();
+        PlayerManagerOM playerManager = collision.gameObject.GetComponent<PlayerManagerOM>();
         if (playerManager != null)
         {
             playerManager.Damage(1);
@@ -79,7 +80,7 @@ public class CannonBall : MonoBehaviour, IReversible
             return;
         }
 
-        BreakableObject breakableObject = GetComponent<BreakableObject>();
+        BreakableObject breakableObject = collision.gameObject.GetComponent<BreakableObject>();
         if (breakableObject != null)
         {
             breakableObject.Break();
@@ -89,6 +90,12 @@ public class CannonBall : MonoBehaviour, IReversible
             return;
         }
 
+        SoundManager.Instance.PlaySE(boomSe);
+        Destroy(this.gameObject);
+    }
+
+    void TilemapCollider2D()
+    {
         SoundManager.Instance.PlaySE(boomSe);
         Destroy(this.gameObject);
     }
