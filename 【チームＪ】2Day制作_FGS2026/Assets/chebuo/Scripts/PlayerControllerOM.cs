@@ -46,6 +46,7 @@ public class PlayerControllerOM : MonoBehaviour
 
     public void ChangeGravity()
     {
+        Debug.Log("gravity");
         rb.gravityScale*=-1;
         spriteRenderer.flipY = !spriteRenderer.flipY;
 
