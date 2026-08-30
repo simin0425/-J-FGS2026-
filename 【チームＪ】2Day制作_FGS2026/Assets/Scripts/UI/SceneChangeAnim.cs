@@ -20,9 +20,7 @@ public class FadeManager : MonoBehaviour
         {
             t += Time.deltaTime;
             
-            Color color = fadePanel.color;
-            color.a = t/fadeTime;
-            fadePanel.color = color;
+            fadePanel.fillAmount+=0.1f;
 
             yield return null;
         }
