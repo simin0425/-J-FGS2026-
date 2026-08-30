@@ -1,23 +1,32 @@
+using System;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CannonBall : MonoBehaviour, IReversible
 {
-    [Header("ƒRƒ“ƒ|[ƒlƒ“ƒg")]
+    [Header("ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ")]
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private Rigidbody2D rigidbody;
-    [Header("ˆÚ“®")]
-    [SerializeField][Tooltip("x-‚ª¶Œü‚«")] private Vector3 moveDir;
+    [Header("ç§»å‹•")]
+    [SerializeField][Tooltip("x-ãŒå·¦å‘ã")] private Vector3 moveDir;
     [SerializeField] private float moveSpeed;
     [SerializeField] private UnityEngine.Transform playerTransform;
     [SerializeField] private float moveStartRange =12f;
-    private bool shouldMove = false;
+    [SerializeField]private bool shouldMove = false;
+
+    [SerializeField] private AudioClip boomSe;
+    [SerializeField] private AudioClip moveSe;
+    
 
 
     protected bool isRevered = false;
 
     bool IReversible.isRevered { get; set; }
 
+    private void Start()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void FixedUpdate()
     {
@@ -33,6 +42,8 @@ public class CannonBall : MonoBehaviour, IReversible
         {
             shouldMove = true;
         }
+
+        rigidbody.SetRotation(Vector2.SignedAngle(playerTransform.right, rigidbody.linearVelocity));
     }
 
     private void OnReversed()
@@ -48,23 +59,26 @@ public class CannonBall : MonoBehaviour, IReversible
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //player
-        //”j‰ó‰Â”\ƒIƒuƒWƒFƒNƒg
+        //ç ´å£Šå¯èƒ½ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
         PlayerManagerOM playerManager = GetComponent<PlayerManagerOM>();
-        if (playerManager != null) {
+        if (playerManager != null)
+        {
             playerManager.Damage(1);
-            // ƒp[ƒeƒBƒNƒ‹‚Æ‚©B
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã¨ã‹ã€‚
+            SoundManager.Instance.PlaySE(boomSe);
             Destroy(this.gameObject);
             return;
         }
+
         BreakableObject breakableObject = GetComponent<BreakableObject>();
         if (breakableObject != null)
         {
             breakableObject.Break();
-            // ƒp[ƒeƒBƒNƒ‹‚Æ‚©B
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã¨ã‹ã€‚
+            SoundManager.Instance.PlaySE(boomSe);
             Destroy(this.gameObject);
             return;
         }
 
     }
-    // TODO:linerVerocity‚©‚ç‚ÌŠp“xŒvZA“K—p(Šp“xŒvZ‚Æ‚©’u‚­ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX‚Ù‚µ‚¢)
 }

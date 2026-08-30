@@ -124,6 +124,11 @@ MonoBehaviour:
   rigidbody: {fileID: 2407446891236343741}
   moveDir: {x: -1, y: 0, z: 0}
   moveSpeed: 3
+  playerTransform: {fileID: 0}
+  moveStartRange: 12
+  shouldMove: 0
+  boomSe: {fileID: 8300000, guid: 0e7ac36ffab31424f9058c3c86a56f1c, type: 3}
+  moveSe: {fileID: 8300000, guid: 4c353bc11902c7f4d8f3ee2cec08f948, type: 3}
 --- !u!1 &8556329184587896370
 GameObject:
   m_ObjectHideFlags: 0
