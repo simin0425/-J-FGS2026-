@@ -15,8 +15,8 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform rightTopLimit;
 
-    const float kScreenWidth = 9 * 2;
-    const float kScreenHeight = 5 * 2;
+    const float kScreenWidth = 14 * 2;
+    const float kScreenHeight = 8 * 2;
 
     private void Start()
     {

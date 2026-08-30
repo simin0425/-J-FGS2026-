@@ -16,17 +16,20 @@ public class PlayerControllerOM : MonoBehaviour
 
     public void Move(Vector2 inputValue,float speed)
     {
-        rb.linearVelocity = new Vector2(inputValue.x * speed, rb.linearVelocity.y);
-        if(inputValue.x<0){
-            spriteRenderer.flipX=true;
-            attackCol.transform.localPosition=new Vector3(-attackColDefaultPos.x,attackColDefaultPos.y,attackColDefaultPos.z);
-        }
-        else if(inputValue.x>0)
+        rb.linearVelocity = new Vector2(inputValue.x * speed,rb.linearVelocity.y);
+
+        if (inputValue.x < 0)
         {
-            spriteRenderer.flipX=false;
-            attackCol.transform.localPosition=new Vector3(attackColDefaultPos.x,attackColDefaultPos.y,attackColDefaultPos.z);
+            spriteRenderer.flipX = true;
         }
-        else spriteRenderer.flipX=spriteRenderer.flipX;
+        else if (inputValue.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        float x = spriteRenderer.flipX ? -attackColDefaultPos.x : attackColDefaultPos.x;
+        float y = spriteRenderer.flipY ? -attackColDefaultPos.y : attackColDefaultPos.y;
+        attackCol.transform.localPosition = new Vector3( x,y,attackColDefaultPos.z);
     }
 
     public void Jump(float jumpForce,bool isReverse)
@@ -44,16 +47,18 @@ public class PlayerControllerOM : MonoBehaviour
     public void ChangeGravity()
     {
         rb.gravityScale*=-1;
-        spriteRenderer.flipY=!spriteRenderer.flipY;
+        spriteRenderer.flipY = !spriteRenderer.flipY;
+
+        float x = spriteRenderer.flipX ? -attackColDefaultPos.x : attackColDefaultPos.x;
+        float y = spriteRenderer.flipY ? -attackColDefaultPos.y : attackColDefaultPos.y;
+        attackCol.transform.localPosition = new Vector3(x,y,attackColDefaultPos.z);
     }
 
     public void Attack(Vector2 attackSize)
     {
         Debug.Log("attacking");
         Collider2D[] hitCol=Physics2D.OverlapBoxAll(attackCol.transform.position,attackSize,0);
-        Debug.Log(hitCol.Length);
         foreach(Collider2D col in hitCol){
-            Debug.Log(col);
             if(col.gameObject==this.gameObject)continue;
             var reversible=col.GetComponent<IReversible>();
             if(reversible==null)Debug.Log("nullpo");

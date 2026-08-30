@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,8 @@ public class PlayerManagerOM : MonoBehaviour
     [Header("攻撃力")]public float attackForce=5;
     [Header("攻撃範囲")]public Vector2 attackSize=new Vector2(1,1);
 
+    [HideInInspector] public Vector3 respawnPoint;
+
     public bool isGround=false;
     public bool isSquat=false;
     public bool isReverseGravity=false;
@@ -22,6 +25,7 @@ public class PlayerManagerOM : MonoBehaviour
     [SerializeField]LayerMask groundLayer;
 
     public PlayerState currentState=PlayerState.idle;
+    public AttackState currentAttackState=AttackState.idle;
 
     Animator animator;
     PlayerControllerOM playerController;
@@ -38,6 +42,11 @@ public class PlayerManagerOM : MonoBehaviour
         changeGravity.Enable();
         animator=this.GetComponent<Animator>();
         playerController=this.GetComponent<PlayerControllerOM>();
+    }
+
+    private void Start()
+    {
+        respawnPoint=transform.position;
     }
 
     // Update is called once per frame
@@ -61,6 +70,8 @@ public class PlayerManagerOM : MonoBehaviour
                 break;
         }
         Jump();
+        
+        Debug.Log(isGround);
     }
 
     private void IdleLoop()
@@ -73,10 +84,13 @@ public class PlayerManagerOM : MonoBehaviour
         if (attack.WasPressedThisFrame())
         {
             ChangeState(PlayerState.attack);
+            ChangeAttackState(AttackState.hammer);
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
         {
-            ChangeGravity();
+            animator.SetBool("isMove",false);
+            animator.SetBool("isAttack",true);
+            ChangeAttackState(AttackState.gravity);
             isReverseGravity=!isReverseGravity;
         }
     }
@@ -88,7 +102,9 @@ public class PlayerManagerOM : MonoBehaviour
         }
         if (changeGravity.WasPressedThisFrame()&&isGround)
         {
-            ChangeGravity();
+            animator.SetBool("isMove",false);
+            animator.SetBool("isAttack",true);
+            ChangeAttackState(AttackState.gravity);
             isReverseGravity=!isReverseGravity;
         }
     }
@@ -103,12 +119,21 @@ public class PlayerManagerOM : MonoBehaviour
 
     public void StartAttack()
     {
-        playerController.Attack(attackSize);
+        switch (currentAttackState)
+        {
+            case AttackState.gravity:
+                ChangeGravity();
+                break;
+            case AttackState.hammer:
+                playerController.Attack(attackSize);
+                break;
+        }
     }
 
     public void StopAttack()
     {
         ChangeState(PlayerState.idle);
+        ChangeAttackState(AttackState.idle);
         //this.transform.localScale=new Vector3(0.05f,0.05f,0.05f);
         animator.SetBool("isAttack",false);
     }
@@ -139,6 +164,12 @@ public class PlayerManagerOM : MonoBehaviour
         currentState=state;
     }
 
+    public void ChangeAttackState(AttackState state)
+    {
+        if(currentAttackState==state)return;
+        currentAttackState=state;
+    }
+
     private void CheckGround()//接地判定検知
     {
         if(!isReverseGravity)
@@ -151,6 +182,7 @@ public class PlayerManagerOM : MonoBehaviour
             );
             
             isGround=isHit;
+            animator.SetBool("isGround",isHit);
         }
         else
         {
@@ -162,6 +194,7 @@ public class PlayerManagerOM : MonoBehaviour
             );
             
             isGround=isHit;
+            animator.SetBool("isGround",isHit);
         }
     }
 
