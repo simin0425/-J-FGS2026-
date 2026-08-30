@@ -71,7 +71,7 @@ public class PlayerControllerOM : MonoBehaviour
 
     PlayerManagerOM pm;
     [Header("攻撃判定オブジェクト")][SerializeField]private SpriteRenderer sr;
-    [Header("表示非表示")][SerializeField]private bool isEnable; 
+    [Header("表示非表示")][SerializeField]private bool isEnable=false; 
 
 
     void Start()=>pm=this.GetComponent<PlayerManagerOM>();

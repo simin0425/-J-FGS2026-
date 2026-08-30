@@ -7,7 +7,7 @@ public class PlayerManagerOM : MonoBehaviour
     InputAction move;
     InputAction jump;
     InputAction attack;
-    InputAction changeGravity;
+    InputAction changeGravityInput;
 
     [Header("体力")]public int HP=3;
     [Header("移動速度")]public float moveSpeed=5;
@@ -43,11 +43,11 @@ public class PlayerManagerOM : MonoBehaviour
         move=InputSystem.actions.FindAction("Move");
         jump=InputSystem.actions.FindAction("Jump");
         attack=InputSystem.actions.FindAction("Attack");
-        changeGravity=InputSystem.actions.FindAction("ChangeGravity");
+        changeGravityInput=InputSystem.actions.FindAction("ChangeGravity");
         move.Enable();
         jump.Enable();
         attack.Enable();
-        changeGravity.Enable();
+        changeGravityInput.Enable();
         animator=this.GetComponent<Animator>();
         audioSource=this.GetComponent<AudioSource>();
         playerController=this.GetComponent<PlayerControllerOM>();
@@ -95,7 +95,7 @@ public class PlayerManagerOM : MonoBehaviour
             ChangeState(PlayerState.attack);
             ChangeAttackState(AttackState.hammer);
         }
-        if (changeGravity.WasPressedThisFrame()&&isGround)
+        if (changeGravityInput.WasPressedThisFrame()&&isGround)
         {
             animator.SetBool("isMove",false);
             animator.SetBool("isAttack",true);
@@ -109,7 +109,7 @@ public class PlayerManagerOM : MonoBehaviour
         {
             ChangeState(PlayerState.attack);
         }
-        if (changeGravity.WasPressedThisFrame()&&isGround)
+        if (changeGravityInput.WasPressedThisFrame()&&isGround)
         {
             animator.SetBool("isMove",false);
             animator.SetBool("isAttack",true);
@@ -227,6 +227,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     public void Damage(int damage)
     {
+        Debug.Log("take Damage");
         animator.SetBool("isDamage",true);
         HP-=damage;
         HP_UI_FR.Instance.Damage();
@@ -234,6 +235,7 @@ public class PlayerManagerOM : MonoBehaviour
 
     public void FinishDamage()
     {
+        Debug.Log("isDamage");
         animator.SetBool("isDamage",false);
     }
 }
