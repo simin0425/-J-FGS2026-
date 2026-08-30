@@ -15,6 +15,8 @@ public class HP_UI_FR : MonoBehaviour
 
     public int hp = 3;
     public GameObject[] hearts;
+
+    public GameObject FadeObject;
      //ハート画像を3つ入れる
 
 
@@ -37,7 +39,19 @@ public void Damage()
     {
           if (hp <= 0)
         {
-            SceneChanger.ChangeScene(SceneChanger.Scene.GameOverScene);
+            if (FadeObject != null)
+            {
+                FadeManager fadeManager = FadeObject.GetComponent<FadeManager>();
+                if (fadeManager != null)
+                {
+                    fadeManager.FadeOutAndLoad(SceneChanger.Scene.GameOverScene);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("FadeObject or FadeManager is not assigned.");
+                SceneChanger.ChangeScene(SceneChanger.Scene.GameOverScene);
+            }
         }
     }
 
