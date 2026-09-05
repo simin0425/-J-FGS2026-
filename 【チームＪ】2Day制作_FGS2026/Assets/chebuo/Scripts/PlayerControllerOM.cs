@@ -20,11 +20,11 @@ public class PlayerControllerOM : MonoBehaviour
 
         if (inputValue.x < 0)
         {
-            spriteRenderer.flipX = true;
+            spriteRenderer.flipX = true;//左を向いている
         }
-        else if (inputValue.x > 0)
+        else if (inputValue.x > 0)//
         {
-            spriteRenderer.flipX = false;
+            spriteRenderer.flipX = false;//右を向いている
         }
 
         float x = spriteRenderer.flipX ? -attackColDefaultPos.x : attackColDefaultPos.x;

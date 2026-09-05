@@ -20,11 +20,13 @@ public class PlayerManagerOM : MonoBehaviour
     public bool isGround=false;
     public bool isSquat=false;
     public bool isReverseGravity=false;
+    public bool frontWall=false;
 
     [SerializeField]AudioClip moveSound;
     [SerializeField]AudioClip hammerSound;
     [SerializeField]AudioClip gravitySound;
 
+    [SerializeField]float wallDistance=0.5f;
     [SerializeField]float groundDistance=0.5f;
     [SerializeField]LayerMask groundLayer;
 
@@ -64,6 +66,7 @@ public class PlayerManagerOM : MonoBehaviour
     void Update()
     {
         CheckGround();
+        CheckFrontWall();
         CheckSquat();
         switch (currentState)
         {
@@ -84,7 +87,7 @@ public class PlayerManagerOM : MonoBehaviour
                 break;
         }
         Jump();
-        
+        CheckFrontWall();
         Debug.Log(isGround);
     }
 
@@ -167,9 +170,18 @@ public class PlayerManagerOM : MonoBehaviour
     private void Move()
     {
         var inputValue=move.ReadValue<Vector2>();
-        if(inputValue==new Vector2(0,0))ChangeState(PlayerState.idle);//動いてないときidleへ
+        if(inputValue==new Vector2(0,0))
+        {
+            ChangeState(PlayerState.idle);//動いてないときidleへ    
+        }
         playerController.Move(inputValue,moveSpeed);
         animator.SetBool("isMove",true);
+        StopMove();
+    }
+
+    private void StopMove()
+    {
+        if(frontWall)playerController.Move(new Vector2(0,0),0);
     }
 
     public void MoveSound()
@@ -226,6 +238,40 @@ public class PlayerManagerOM : MonoBehaviour
             
             isGround=isHit;
             animator.SetBool("isGround",isHit);
+        }
+    }
+
+    private void CheckFrontWall()//前方壁判定検知
+    {
+        var inputValue=move.ReadValue<Vector2>();
+        bool isRight=false;
+        if (inputValue.x < 0)
+        {
+             isRight= false;//左を向いている
+        }
+        else if (inputValue.x > 0)//
+        {
+            isRight = true;//右を向いている
+        }
+        if(!isReverseGravity&&isRight)
+        {
+            var isHit=Physics2D.Raycast(
+                transform.position,
+                Vector2.right,
+                wallDistance,
+                groundLayer
+            );       
+            frontWall=isHit;
+        }
+        else
+        {
+            var isHit=Physics2D.Raycast(
+                transform.position,
+                Vector2.left,
+                wallDistance,
+                groundLayer
+            );        
+            frontWall=isHit;
         }
     }
 
