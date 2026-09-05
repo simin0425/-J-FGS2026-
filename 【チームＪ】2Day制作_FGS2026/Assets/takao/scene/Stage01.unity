@@ -180557,6 +180557,14 @@ PrefabInstance:
       propertyPath: isEnable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3276132302660936107, guid: a664756f8e5a2b44a99a37c9956836e3, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276132302660936107, guid: a664756f8e5a2b44a99a37c9956836e3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3998312988760374510, guid: a664756f8e5a2b44a99a37c9956836e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.57
