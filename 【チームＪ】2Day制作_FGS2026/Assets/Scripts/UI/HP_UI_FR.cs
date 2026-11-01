@@ -56,15 +56,6 @@ public void Damage()
     }
 
 
-void Update()
-    {
-        // Wキーが押されたらダメージ
-        if (Keyboard.current.wKey.wasPressedThisFrame)
-        {
-            Damage();
-        }
-    }
-
 void Start()
     {
         foreach (GameObject heart in hearts)
