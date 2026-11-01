@@ -88,7 +88,6 @@ public class PlayerManagerOM : MonoBehaviour
         }
         Jump();
         CheckFrontWall();
-        Debug.Log(isGround);
     }
 
     public void NoDamage()
@@ -267,7 +266,7 @@ public class PlayerManagerOM : MonoBehaviour
         {
             var isHit=Physics2D.Raycast(
                 transform.position,
-                Vector2.left,
+                Vector2.right,
                 wallDistance,
                 groundLayer
             );        
